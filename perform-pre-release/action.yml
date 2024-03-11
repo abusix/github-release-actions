@@ -1,0 +1,14 @@
+name: '[github-release-action] Perform Pre-Release'
+description: 'Determine if the release is valid. If it is a new release generate a draft. If it is an existing release continue.'
+inputs:
+  release-version:
+    description: 'The tag name of the target release.'
+    required: true
+outputs:
+  releaseId:
+    description: 'The numeric github id of the release to be deployed'
+  isExistingRelease:
+    description: '`true` if this is a rollback/roll forward, `false` if this is a new release'
+runs:
+  using: 'node20'
+  main: '../dist/action-perform-prerelease.js'
