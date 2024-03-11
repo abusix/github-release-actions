@@ -1,0 +1,30 @@
+{
+  "name": "github-release-action",
+  "version": "0.0.0",
+  "description": "Optinionated set of github release actions for tagging and deployments",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielemery/github-release-action.git"
+  },
+  "author": "Daniel Emery <danielremery@gmail.com>",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/danielemery/github-release-action/issues"
+  },
+  "homepage": "https://github.com/danielemery/github-release-action#readme",
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@actions/github": "^6.0.0",
+    "@octokit/action": "^6.0.7"
+  },
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.2",
+    "@types/node": "^20.11.25",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.2"
+  }
+}
