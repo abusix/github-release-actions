@@ -26,28 +26,26 @@ export async function performPostRelease(
     logger.info(
       `Found ${prereleases.length} older prereleases to cleanup, ${skippedPreleaseCount} newer prereleases skipped`
     );
-    for (const olderPrerelease of prereleases) {
+    for (const prerelease of prereleases) {
       logger.debug(
-        `Deleting prerelease ${olderPrerelease.tag_name} (${olderPrerelease.id})`
+        `Deleting prerelease ${prerelease.tag_name} (${prerelease.id})`
       );
       await octokit.rest.repos.deleteRelease({
         owner,
         repo,
-        release_id: olderPrerelease.id,
+        release_id: prerelease.id,
       });
-    }
 
-    // Delete older tags (except the target)
-    for (const olderPrerelease of prereleases) {
-      if (olderPrerelease.tag_name !== targetRelease.tag_name) {
-        logger.debug(`Deleting tag ${olderPrerelease.tag_name}`);
+      // As long as this is not the target release, delete the tag as well
+      if (prerelease.tag_name !== targetRelease.tag_name) {
+        logger.debug(`Deleting tag ${prerelease.tag_name}`);
         await octokit.rest.git.deleteRef({
           owner,
           repo,
-          ref: `tags/${olderPrerelease.tag_name}`,
+          ref: `tags/${prerelease.tag_name}`,
         });
       } else {
-        logger.debug(`Skipping tag ${olderPrerelease.tag_name}`);
+        logger.debug(`Skipping tag ${prerelease.tag_name}`);
       }
     }
 
