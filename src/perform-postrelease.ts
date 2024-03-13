@@ -27,11 +27,28 @@ export async function performPostRelease(
       `Found ${prereleases.length} older prereleases to cleanup, ${skippedPreleaseCount} newer prereleases skipped`
     );
     for (const olderPrerelease of prereleases) {
+      logger.debug(
+        `Deleting prerelease ${olderPrerelease.tag_name} (${olderPrerelease.id})`
+      );
       await octokit.rest.repos.deleteRelease({
         owner,
         repo,
         release_id: olderPrerelease.id,
       });
+    }
+
+    // Delete older tags (except the target)
+    for (const olderPrerelease of prereleases) {
+      if (olderPrerelease.tag_name !== targetRelease.tag_name) {
+        logger.debug(`Deleting tag ${olderPrerelease.tag_name}`);
+        await octokit.rest.git.deleteRef({
+          owner,
+          repo,
+          ref: `tags/${olderPrerelease.tag_name}`,
+        });
+      } else {
+        logger.debug(`Skipping tag ${olderPrerelease.tag_name}`);
+      }
     }
 
     // Promote draft release to production
