@@ -52,6 +52,7 @@ export async function performPreRelease(
     return {
       releaseId: draftRelease.id,
       isExistingRelease: false,
+      releaseUrl: draftRelease.html_url,
     };
   }
 

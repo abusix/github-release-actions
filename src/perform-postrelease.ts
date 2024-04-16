@@ -50,7 +50,6 @@ export async function performPostRelease(
     }
 
     // Promote draft release to production
-    logger.info("Promoting draft release to production");
     const updatedRelease = await octokit.rest.repos.updateRelease({
       owner,
       repo,
@@ -59,6 +58,9 @@ export async function performPostRelease(
       prerelease: false,
       latest: true,
     });
+    logger.info(
+      `Draft release promoted to latest: ${updatedRelease.data.html_url}`
+    );
     return {
       releaseUrl: updatedRelease.data.html_url,
     };
