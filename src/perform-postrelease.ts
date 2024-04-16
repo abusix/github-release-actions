@@ -51,7 +51,7 @@ export async function performPostRelease(
 
     // Promote draft release to production
     logger.info("Promoting draft release to production");
-    await octokit.rest.repos.updateRelease({
+    const updatedRelease = await octokit.rest.repos.updateRelease({
       owner,
       repo,
       release_id: targetReleaseId,
@@ -59,13 +59,19 @@ export async function performPostRelease(
       prerelease: false,
       latest: true,
     });
+    return {
+      releaseUrl: updatedRelease.data.html_url,
+    };
   } else {
     logger.info("Target is an existing release, marking release as latest");
-    await octokit.rest.repos.updateRelease({
+    const updatedRelease = await octokit.rest.repos.updateRelease({
       owner,
       repo,
       release_id: targetReleaseId,
       make_latest: "true",
     });
+    return {
+      releaseUrl: updatedRelease.data.html_url,
+    };
   }
 }
