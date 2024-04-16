@@ -61,5 +61,6 @@ export async function performPreRelease(
   return {
     releaseId: targetRelease.id,
     isExistingRelease: true,
+    releaseUrl: targetRelease.html_url,
   };
 }
